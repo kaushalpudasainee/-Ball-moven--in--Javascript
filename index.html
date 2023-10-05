@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Loop</title>
+  </head>
+  <body>
+    <canvas
+      style="background-color: red"
+      id="canvas"
+      width="400"
+      height="400"
+    ></canvas>
+
+    <script>
+      const canvas = document.getElementById("canvas");
+      const c = canvas.getContext("2d");
+
+      let x = 50;
+      let y = 50;
+      let ballRadius = 25;
+      let isFalling = false; // indicating that the ball is not in a falling state.
+
+      canvas.addEventListener("click", function(event) {
+        x = event.offsetX;
+        y = event.offsetY;
+        isFalling = true;
+      });
+
+      function renderBall() {
+        c.beginPath();
+        c.arc(x, y, ballRadius, 0, 180 * 2);
+        c.fillStyle = "green";
+        c.fill();
+      }
+
+      // Game Loop
+      function update() {
+        // Clear canvas
+        c.clearRect(0, 0, 400, 400);
+
+        if (isFalling) {
+          // Move the ball down (falling)
+          y += 1;
+
+          // Check if ball reaches the bottom
+          if (y > canvas.height - ballRadius) {
+            isFalling = false;
+          }
+        }
+        renderBall();
+        window.requestAnimationFrame(update);
+      }
+
+      update();
+    </script>
+  </body>
+</html>
